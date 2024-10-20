@@ -24,12 +24,16 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavHost
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.lasalleapp.models.BottomNavigationItem
 import com.example.lasalleapp.ui.screens.CalendarScreen
 import com.example.lasalleapp.ui.screens.GradesScreen
@@ -71,8 +75,12 @@ class MainActivity : ComponentActivity() {
                                            modifier = Modifier.size(26.dp))
                                        Text(
                                            text = bottomNavigationItem.title,
+                                           style =  MaterialTheme.typography.bodySmall,
                                            color = if(selectedItem == index) MaterialTheme.colorScheme.onPrimary
-                                           else MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.5f))
+                                           else MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.5f),
+                                           maxLines = 1,
+                                           overflow = TextOverflow.Ellipsis,
+                                           modifier = Modifier.padding(top = 4.dp))
                                    }
                                }
 
@@ -80,15 +88,23 @@ class MainActivity : ComponentActivity() {
                     }) { innerPadding ->
                     NavHost(navController = navController, startDestination = Screens.Home.route) {
                         composable(route = Screens.Home.route){
-                            HomeScreen(innerPadding = innerPadding) }
+                            HomeScreen(innerPadding = innerPadding, navController = navController) }
                         composable(route = Screens.Grades.route){
                             GradesScreen(innerPadding = innerPadding) }
                         composable(route = Screens.Calemdar.route){
                             CalendarScreen(innerPadding = innerPadding) }
                         composable(route = Screens.Settings.route){
                             SettingsScreen(innerPadding = innerPadding) }
-                        composable(route = Screens.NewsDetail.route){
-                            NewsDetailScreen(innerPadding = innerPadding) }
+                        composable(
+                            route = Screens.NewsDetail.route + "/{newsId}",
+                            arguments = listOf(
+                                navArgument("newsId"){
+                                    type = NavType.IntType
+                                }
+                            )
+                        ){
+                            val newsId = it.arguments?.getInt("newsId") ?: 0
+                            NewsDetailScreen(innerPadding = innerPadding, newsId = newsId) }
                     }
                 }
             }

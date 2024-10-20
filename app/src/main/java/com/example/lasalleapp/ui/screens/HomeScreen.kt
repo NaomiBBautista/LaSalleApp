@@ -1,11 +1,14 @@
 package com.example.lasalleapp.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,8 +16,16 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFrom
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -31,15 +42,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.example.lasalleapp.R
+import com.example.lasalleapp.ui.components.CardImage
+import com.example.lasalleapp.ui.components.Widget
 import com.example.lasalleapp.ui.theme.LaSalleAppTheme
+import com.example.lasalleapp.utils.CashCoin
 import com.example.lasalleapp.utils.Logout
+import com.example.lasalleapp.utils.Screens
+import com.example.lasalleapp.utils.Task
+import com.example.lasalleapp.utils.communities
+import com.example.lasalleapp.utils.newsList
 
 @Composable
-fun HomeScreen(innerPadding: PaddingValues){
+fun HomeScreen(innerPadding: PaddingValues, navController: NavController){
     Column (modifier = Modifier
         .fillMaxSize()
-        .background(MaterialTheme.colorScheme.background))
+        .background(MaterialTheme.colorScheme.background)
+        .verticalScroll(
+            rememberScrollState()
+        )
+    )
     {
         // HEADER
         Box(modifier = Modifier
@@ -94,7 +119,14 @@ fun HomeScreen(innerPadding: PaddingValues){
             .height(140.dp),
             contentAlignment = Alignment.Center
             ){
-            Text(text = "TODO")
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Absolute.SpaceEvenly
+            ) {
+                Widget(icon = Icons.Default.DateRange, title = "Sin Eventos")
+                Widget(icon = Task, title = " 2 Tareas")
+                Widget(icon = CashCoin, title = "Pagos")
+            }
         }
         
         // BODY
@@ -104,18 +136,54 @@ fun HomeScreen(innerPadding: PaddingValues){
                 .background(MaterialTheme.colorScheme.background)
                 .padding(10.dp)
         ){
-            Column {
+            Column(
+                modifier = Modifier.clip(RoundedCornerShape(10.dp))
+            ) {
                 Text(
                     text = stringResource(id = R.string.news),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 26.sp
+                    style = MaterialTheme.typography.titleLarge
                 )
 
                 // Carrusel
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    items(newsList){ news ->
+                        CardImage(news = news){
+                           navController.navigate(Screens.NewsDetail.route + "/${news.id}")
+                        }
+                    }
+
+                }
+                
+                Spacer(modifier = Modifier.size(10.dp))
 
                 // Título de Comunidad
+                Text(
+                    text = stringResource(id = R.string.community),
+                    style = MaterialTheme.typography.titleLarge
+                )
 
                 // Grid de Comunidad
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(500.dp)
+                ){
+                    items(communities){ community ->
+                        Box(
+                            modifier = Modifier
+                                .size(180.dp)
+                                .padding(10.dp)
+                        ) {
+                            AsyncImage(
+                                model = community.image,
+                                contentDescription = "community",
+                                modifier = Modifier.fillMaxSize())
+                        }
+                    }
+                }
             }
         }
     }
@@ -129,6 +197,7 @@ fun HomeScreen(innerPadding: PaddingValues){
 @Composable
 fun GreetingPreview() {
    LaSalleAppTheme{
-      HomeScreen(innerPadding = PaddingValues(0.dp))
+       val navController = rememberNavController()
+      HomeScreen(innerPadding = PaddingValues(0.dp),navController = navController )
    }
 }
