@@ -4,7 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -19,13 +22,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.lasalleapp.models.News
 import com.example.lasalleapp.ui.theme.LaSalleAppTheme
 
 @Composable
-fun Widget(icon : ImageVector, title : String, onClick: () -> Unit = {}){
+fun Option(icon : ImageVector, title : String,  onClick: () -> Unit){
     Box(
-        modifier = Modifier.size(90.dp)
+        modifier = Modifier.width(120.dp).height(100.dp)
             .clip(RoundedCornerShape(10.dp))
             .background(MaterialTheme.colorScheme.background)
             .clickable { onClick() },
@@ -39,19 +41,19 @@ fun Widget(icon : ImageVector, title : String, onClick: () -> Unit = {}){
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(40.dp))
-            
+
             Text(text = title,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.bodySmall)
+                style = MaterialTheme.typography.titleMedium)
         }
     }
 }
 
-@Preview
-@Composable
-fun WidgetPreview(){
-    LaSalleAppTheme {
-        Widget(icon = Icons.Default.Home, title = "Hola")
-    }
-}
+//@Preview
+//@Composable
+//fun OptionPreview(){
+//    LaSalleAppTheme {
+//        Option(icon = Icons.Default.Home, title = "Hola" )
+//    }
+//}

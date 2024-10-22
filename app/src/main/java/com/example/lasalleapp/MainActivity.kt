@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -27,8 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.NavHost
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -38,8 +34,12 @@ import com.example.lasalleapp.models.BottomNavigationItem
 import com.example.lasalleapp.ui.screens.CalendarScreen
 import com.example.lasalleapp.ui.screens.GradesScreen
 import com.example.lasalleapp.ui.screens.HomeScreen
+import com.example.lasalleapp.ui.screens.MateriaScreen
 import com.example.lasalleapp.ui.screens.NewsDetailScreen
+import com.example.lasalleapp.ui.screens.PagosScreen
+import com.example.lasalleapp.ui.screens.PasswordScreen
 import com.example.lasalleapp.ui.screens.SettingsScreen
+import com.example.lasalleapp.ui.screens.ThemeScreen
 import com.example.lasalleapp.ui.theme.LaSalleAppTheme
 import com.example.lasalleapp.utils.Screens
 import com.exyte.animatednavbar.AnimatedNavigationBar
@@ -89,20 +89,38 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController = navController, startDestination = Screens.Home.route) {
                         composable(route = Screens.Home.route){
                             HomeScreen(innerPadding = innerPadding, navController = navController) }
+
+                        composable(route = Screens.Pagos.route){
+                            PagosScreen(innerPadding = innerPadding) }
+
+                        composable(
+                            route = Screens.Materia.route + "/{materiaId}",
+                            arguments = listOf(
+                                navArgument("materiaId"){
+                                    type = NavType.IntType })){
+                            val materiaId = it.arguments?.getInt("materiaId" ) ?:0
+                            MateriaScreen(innerPadding = innerPadding, materiaId) }
+
                         composable(route = Screens.Grades.route){
-                            GradesScreen(innerPadding = innerPadding) }
+                            GradesScreen(innerPadding = innerPadding, navController, 1) }
+
                         composable(route = Screens.Calemdar.route){
                             CalendarScreen(innerPadding = innerPadding) }
+
                         composable(route = Screens.Settings.route){
-                            SettingsScreen(innerPadding = innerPadding) }
+                            SettingsScreen(innerPadding = innerPadding, navController, 1 ) }
+
+                        composable(route = Screens.Password.route){
+                            PasswordScreen(innerPadding = innerPadding ) }
+
+                        composable(route = Screens.Theme.route){
+                            ThemeScreen(innerPadding = innerPadding ) }
+
                         composable(
                             route = Screens.NewsDetail.route + "/{newsId}",
                             arguments = listOf(
                                 navArgument("newsId"){
-                                    type = NavType.IntType
-                                }
-                            )
-                        ){
+                                    type = NavType.IntType })){
                             val newsId = it.arguments?.getInt("newsId") ?: 0
                             NewsDetailScreen(innerPadding = innerPadding, newsId = newsId) }
                     }

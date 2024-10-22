@@ -1,6 +1,5 @@
 package com.example.lasalleapp.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.paddingFrom
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -26,7 +24,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -34,7 +31,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -60,6 +56,7 @@ import com.example.lasalleapp.utils.newsList
 fun HomeScreen(innerPadding: PaddingValues, navController: NavController){
     Column (modifier = Modifier
         .fillMaxSize()
+        .padding(innerPadding)
         .background(MaterialTheme.colorScheme.background)
         .verticalScroll(
             rememberScrollState()
@@ -125,7 +122,7 @@ fun HomeScreen(innerPadding: PaddingValues, navController: NavController){
             ) {
                 Widget(icon = Icons.Default.DateRange, title = "Sin Eventos")
                 Widget(icon = Task, title = " 2 Tareas")
-                Widget(icon = CashCoin, title = "Pagos")
+                Widget(icon = CashCoin, title = "Pagos", onClick = { navController.navigate(Screens.Pagos.route)})
             }
         }
         

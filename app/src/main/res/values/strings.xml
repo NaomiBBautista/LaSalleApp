@@ -3,4 +3,17 @@
     <string name="welcome_text">Bienvenido</string>
     <string name="news">Noticias</string>
     <string name="community">Comunidad</string>
+    <string name="name">Nombre</string>
+    <string name="fecha">Fecha de Nacimiento</string>
+    <string name="email">Correo Institucional</string>
+    <string name="changePassword">Cambiar Contraseña</string>
+    <string name="changeTheme">Cambiar AppTheme</string>
+    <string name="pagos">Pagos</string>
+    <string name="programa">Programa</string>
+    <string name="semestre">Semestre</string>
+    <string name="consulta">Consulta Académica</string>
+    <string name="p1">Parcial 1</string>
+    <string name="p2">Parcial 2</string>
+    <string name="p3">Parcial 3</string>
+    <string name="promedio">Promedio Final</string>
 </resources>
