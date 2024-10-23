@@ -179,7 +179,7 @@ fun GradesScreen(innerPadding: PaddingValues, navController: NavController, alum
 
 
         Column(
-            modifier = Modifier.fillMaxWidth().height(480.dp).padding(10.dp),
+            modifier = Modifier.fillMaxWidth().height(480.dp).padding(10.dp).offset(y = (-40).dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(

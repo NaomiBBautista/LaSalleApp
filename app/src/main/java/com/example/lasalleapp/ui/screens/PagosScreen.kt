@@ -133,7 +133,8 @@ fun PagosScreen(innerPadding: PaddingValues){
                 LazyColumn(
                     modifier = Modifier.fillMaxSize()
                         .padding(10.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     items(mesList){ mes ->
                         PayItem(mes = mes)
